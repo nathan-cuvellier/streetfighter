@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class MovePerson2 : MonoBehaviour
@@ -7,7 +9,10 @@ public class MovePerson2 : MonoBehaviour
     AudioSource m_Source;
     [SerializeField] AudioClip m_Aie;
     [SerializeField] AudioClip m_Ouch;
+    [SerializeField] AudioClip m_Punch;
     [SerializeField] AudioClip m_Death;
+    [SerializeField] AudioClip m_Winner;
+    private List<AudioClip> audios = new List<AudioClip>();
 
     public Rigidbody rigidBody;
     public float speed;
@@ -17,6 +22,11 @@ public class MovePerson2 : MonoBehaviour
     void Start()
     {
         m_Source = GetComponent<AudioSource>();
+
+        audios.Add(m_Aie);
+        audios.Add(m_Ouch);
+        audios.Add(m_Punch);
+
         if (rigidBody == null) rigidBody = GetComponent<Rigidbody>();
 
         if (anim == null) anim = GetComponent<Animator>();
@@ -40,10 +50,27 @@ public class MovePerson2 : MonoBehaviour
             MovePlayer(mV);
         }
 
-        if (Input.GetKey(KeyCode.P)) anim.SetBool("AttackKickL1", true);
-        if (Input.GetKey(KeyCode.O)) anim.SetBool("AttackKickR1", true);
-        if (Input.GetKey(KeyCode.I)) anim.SetBool("AttackR1", true);
-        if (Input.GetKey(KeyCode.U)) anim.SetBool("AttackR2", true);
+
+        if (Input.GetKey(KeyCode.P))
+        {
+            if (!m_Source.isPlaying) m_Source.clip = audios[Random.Range(0, audios.Count)]; m_Source.Play();
+            anim.SetBool("AttackKickL1", true);
+        }
+        if (Input.GetKey(KeyCode.O))
+        {
+            if (!m_Source.isPlaying) m_Source.clip = audios[Random.Range(0, audios.Count)]; m_Source.Play();
+            anim.SetBool("AttackKickR1", true);
+        }
+        if (Input.GetKey(KeyCode.I))
+        {
+            if (!m_Source.isPlaying) m_Source.clip = audios[Random.Range(0, audios.Count)]; m_Source.Play();
+            anim.SetBool("AttackR1", true);
+        }
+        if (Input.GetKey(KeyCode.U))
+        {
+            if (!m_Source.isPlaying) m_Source.clip = audios[Random.Range(0, audios.Count)]; m_Source.Play();
+            anim.SetBool("AttackR2", true);
+        }
 
 
         if (CommunPerso.life2 <= 0) anim.SetBool("Death", true);
@@ -53,6 +80,8 @@ public class MovePerson2 : MonoBehaviour
     public void EndVictory()
     {
         anim.SetBool("Victory", false);
+        m_Source.clip = m_Winner;
+        m_Source.Play();
     }
 
     public void EndForeward()
@@ -116,7 +145,7 @@ public class MovePerson2 : MonoBehaviour
 
     private void OnGUI()
     {
-        if(CommunPerso.life2 > 0)
+        if (CommunPerso.life2 > 0)
         {
             int width = 200;
             int widthShow = CommunPerso.life2 * 200 / 5;
@@ -125,7 +154,10 @@ public class MovePerson2 : MonoBehaviour
             GUI.DrawTextureWithTexCoords(
                 new Rect(Screen.width - width - 20, 20, widthShow, 20), texture, new Rect(0, 0, 1, 1));
         }
-        else CommunPerso.SetWinnerText("joueur n°1");
+        else
+        {
+            CommunPerso.SetWinnerText("joueur n°1");
+        }
        
     }
 }
