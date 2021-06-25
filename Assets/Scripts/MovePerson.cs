@@ -1,9 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class MovePerson : MonoBehaviour
 {
+    AudioSource m_Source;
+    [SerializeField] AudioClip m_Aie;
+    [SerializeField] AudioClip m_Ouch;
+    [SerializeField] AudioClip m_Death;
 
     public Rigidbody rigidBody;
     public float speed;
@@ -12,11 +17,10 @@ public class MovePerson : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        m_Source = GetComponent<AudioSource>();
         if (rigidBody == null) rigidBody = GetComponent<Rigidbody>();
 
         if (anim == null) anim = GetComponent<Animator>();
-
     }
 
     // Update is called once per frame
@@ -25,26 +29,32 @@ public class MovePerson : MonoBehaviour
         float mV = Input.GetAxis("Horizontal");
 
 
-        if (mV > 0)
+        if (mV > 0 && CommunPerso.canMove)
         {
             anim.SetBool("Foreword", true);
             MovePlayer(mV);
         }
-        else if (mV < 0)
+        else if (mV < 0 && CommunPerso.canMove)
         {
             anim.SetBool("Backword", true);
             MovePlayer(mV);
-        }
-        else
-        {
         }
 
         if (Input.GetKey(KeyCode.G)) anim.SetBool("AttackKickL1", true);
         if (Input.GetKey(KeyCode.H)) anim.SetBool("AttackKickR1", true);
         if (Input.GetKey(KeyCode.J)) anim.SetBool("AttackR1", true);
         if (Input.GetKey(KeyCode.K)) anim.SetBool("AttackR2", true);
-        if (Input.GetKey(KeyCode.O)) anim.SetBool("Death", true);
 
+        if (CommunPerso.life1 <= 0)
+        {
+            anim.SetBool("Death", true);
+        }
+
+    }
+
+    public void EndVictory()
+    {
+        anim.SetBool("Victory", false);
     }
 
     public void EndForeward()
@@ -84,21 +94,39 @@ public class MovePerson : MonoBehaviour
 
     public void Hit()
     {
+        float distance = GameObject.FindWithTag("Perso2").transform.position.z - GameObject.FindWithTag("Perso1").transform.position.z;
 
-    }
+        if (distance < 1) {
+            CommunPerso.life2--;
+        }
 
-    public void FootL()
-    {
+        if (CommunPerso.life2 <= 0)
+        {
+            CommunPerso.canMove = false;
+            m_Source.clip = m_Death;
+            m_Source.Play();
 
-    }
 
-    public void FootR()
-    {
-
+            anim.SetBool("Victory", true);
+        }
     }
 
     public void MovePlayer(float coeff)
     {
         rigidBody.velocity = new Vector3(rigidBody.velocity.y, rigidBody.velocity.x, coeff * speed);
     }
+
+    private void OnGUI()
+    {
+        if (CommunPerso.life1 > 0)
+        {
+            Texture2D texture = CommunPerso.life1 > 2 ? (Resources.Load("Images/life") as Texture2D) : (Resources.Load("Images/lowlife") as Texture2D);
+            GUI.DrawTextureWithTexCoords(
+                new Rect(20, 20, CommunPerso.life1 * 200 / 5, 20),
+                texture, new Rect(0, 0, 1, 1)
+            );
+        } else CommunPerso.SetWinnerText("joueur n°2");
+    }
+
+
 }
