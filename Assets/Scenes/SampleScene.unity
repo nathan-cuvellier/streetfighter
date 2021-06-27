@@ -254,7 +254,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Aie: {fileID: 8300000, guid: 2ea56b59621e1c347a6c2bb306bd1f66, type: 3}
   m_Ouch: {fileID: 8300000, guid: f7f658f9bee87e34ba8f701c67994985, type: 3}
+  m_Punch: {fileID: 8300000, guid: e2af0b262f16a00438c79b438e46aee3, type: 3}
   m_Death: {fileID: 8300000, guid: ebee9b1bc013bbf43b81e85cb888ef3e, type: 3}
+  m_Winner: {fileID: 8300000, guid: 13d95403f17499e44b42b4091dc2caf4, type: 3}
   rigidBody: {fileID: 406425944}
   speed: 1
   anim: {fileID: 406425940}
@@ -268,7 +270,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 2ea56b59621e1c347a6c2bb306bd1f66, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -878,6 +880,7 @@ GameObject:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
+  - component: {fileID: 963194229}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -950,6 +953,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!111 &963194229
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: cd4e2d39c3591e149bc9f8dbc6d07696, type: 2}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1001 &1103446887
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1798,7 +1816,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Aie: {fileID: 8300000, guid: 2ea56b59621e1c347a6c2bb306bd1f66, type: 3}
   m_Ouch: {fileID: 8300000, guid: f7f658f9bee87e34ba8f701c67994985, type: 3}
+  m_Punch: {fileID: 8300000, guid: e2af0b262f16a00438c79b438e46aee3, type: 3}
   m_Death: {fileID: 8300000, guid: ebee9b1bc013bbf43b81e85cb888ef3e, type: 3}
+  m_Winner: {fileID: 8300000, guid: 13d95403f17499e44b42b4091dc2caf4, type: 3}
   rigidBody: {fileID: 1971959091}
   speed: 1
   anim: {fileID: 1971959089}
@@ -1812,7 +1832,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 2ea56b59621e1c347a6c2bb306bd1f66, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
